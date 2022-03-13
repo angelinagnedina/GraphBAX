@@ -187,7 +187,7 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "class graph_processing():\n",
+    "class graph_processing:\n",
     "    def __init__(self, graph = None, make_grid = False):\n",
     "        self.graph = graph\n",
     "        self.make_grid = make_grid\n",
