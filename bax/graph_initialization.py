@@ -65,7 +65,7 @@ def change_edges(edges):
     new_edges = []
     for e in edges:
         if e[0][0] < e[1][0]:
-            new_edges.append(np.sum([e[0][1], e[1][1]], axis = 0)/2)
+            new_edges.append(((e[0][0], e[1][0]), np.sum([e[0][1], e[1][1]], axis = 0)/2))
     return new_edges
 
 
