@@ -74,9 +74,12 @@ def change_edges(edges):
 
 def set_weights(edges, new_edges, func):
     weights = {}
-    for i in range(len(new_edges)):
-        assert func(new_edges[i]) >= 0
-        weights[(edges[i][0][0], edges[i][1][0])] = func(new_edges[i])
+    cnt = 0
+    for i in range(len(edges)):
+        if edges[i][0][0] < edges[i][1][0]:
+            assert func(new_edges[cnt]) >= 0
+            weights[(edges[i][0][0], edges[i][1][0])] = func(new_edges[cnt])
+            cnt += 1
     return weights
 
 
