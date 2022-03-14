@@ -151,7 +151,7 @@ class make_grid_2d:
 # In[10]:
 
 
-class graph_processing():
+class graph_processing:
     def __init__(self, graph = None, make_grid = False):
         self.graph = graph
         self.make_grid = make_grid
