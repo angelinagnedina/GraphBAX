@@ -195,8 +195,8 @@ class graph_processing:
             for i in range(len(G)):
                 for j in range(i + 1, len(G)):
                     if G[i][j]:
-                        if params['func'] is None:
-                            graph.add_edge(i, j, G[i][j])
+                        if params.get('func') is None:
+                            graph.add_edge(i, j, weight = G[i][j])
                         else:
                             graph.add_edge(i, j)
         if type(G) == nx.classes.graph.Graph:
