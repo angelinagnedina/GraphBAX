@@ -8,7 +8,6 @@
 # - Дать на вход готовый граф с весами
 # - Можно вызвать функцию make_grid_2d()
 
-# In[1]:
 
 
 import numpy as np
@@ -17,7 +16,6 @@ import networkx as nx
 from matplotlib.collections import LineCollection as LC
 
 
-# In[2]:
 
 
 class Vertex:
@@ -34,7 +32,6 @@ class Vertex:
         return self.position[0] < other.position[0]
 
 
-# In[3]:
 
 
 def make_ver(is_edge: np.array, pos: np.array):
@@ -47,7 +44,6 @@ def make_ver(is_edge: np.array, pos: np.array):
     return ver
 
 
-# In[4]:
 
 
 def make_edge(ver):
@@ -58,7 +54,6 @@ def make_edge(ver):
     return edges
 
 
-# In[5]:
 
 
 def change_edges(edges):
@@ -69,7 +64,6 @@ def change_edges(edges):
     return new_edges
 
 
-# In[6]:
 
 
 def set_weights(edges, new_edges, func):
@@ -83,7 +77,6 @@ def set_weights(edges, new_edges, func):
     return weights
 
 
-# In[7]:
 
 
 def plot_graph(ax, edges, pos):
@@ -99,12 +92,10 @@ def plot_graph(ax, edges, pos):
     return
 
 
-# In[8]:
 
 def Rosenbrock(x, a = 1, b = 100):
     return 0.01*((a - x[0])**2 + b*(x[1] - x[0]**2)**2) 
 
-# In[9]:
 
 class make_grid_2d:
     def __init__(self, num_grid = (20, 20), x_lim = [-2, 2], y_lim = [-1, 4], func = Rosenbrock):
@@ -145,7 +136,6 @@ class make_grid_2d:
         print(f'num_grid is the size of your grid,\nx_lim and y_lim are limits within which the graph will exists,\nfunc should return weights of the edges')
 
 
-# In[10]:
 
 
 class graph_processing:
