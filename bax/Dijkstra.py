@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
 
 
 from sortedcontainers import SortedList
 import numpy as np
 
 
-# In[2]:
 
 
 class Dijkstra:
