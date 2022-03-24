@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
 
 
 import numpy as np
@@ -21,7 +20,6 @@ tf.random.set_seed(7)
 gpflow.config.set_default_float(np.float64)
 
 
-# In[2]:
 
 
 def inv_soft(x):
@@ -85,7 +83,6 @@ def entropy_of_post_pred_distr(X_new, ker, data, subseq, noise):
     return entropy(cov, X_new, compute_cov = False, noise = noise)
 
 
-# In[3]:
 
 
 class EIG_BAX(object):
