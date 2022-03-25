@@ -2,13 +2,10 @@
 # coding: utf-8
 
 
-
 import numpy as np
 import matplotlib.pyplot as plt
 import networkx as nx
 from matplotlib.collections import LineCollection as LC
-
-
 
 
 class Vertex:
@@ -21,7 +18,7 @@ class Vertex:
             neighbors: Adjacent vertices.
     """
     
-    def __init__(self, ind: int, position, neighbors = None):
+    def __init__(self, ind: int, position, neighbors=None):
         # A vertex has a unique number, its coordinates 
         # and a list of its neighbors 
         self.ind = ind 
@@ -29,12 +26,10 @@ class Vertex:
         self.neighbors = [] if neighbors is None else neighbors
 
     def __repr__(self):
-        return f"({self.ind}, {[n.ind for n in self.neighbors]})"
+        return f'({self.ind}, {[n.ind for n in self.neighbors]})'
 
     def __lt__(self, other):
         return self.position[0] < other.position[0]
-
-
 
 
 def make_ver(is_edge, pos):
@@ -45,8 +40,7 @@ def make_ver(is_edge, pos):
         
         Returns:
             Vertices that are instances of the class Vertex.
-    """
-    
+    """    
     ver = [Vertex(i, p) for i, p in enumerate(pos)]
     for i in range(pos.shape[0]):
         for j in range(i + 1, pos.shape[0]):
@@ -54,8 +48,6 @@ def make_ver(is_edge, pos):
                 ver[i].neighbors.append(ver[j])
                 ver[j].neighbors.append(ver[i])
     return ver
-
-
 
 
 def make_edge(ver):
@@ -68,7 +60,6 @@ def make_edge(ver):
             where v_1, v_2 are adjacent vertices and
             pos_1, pos_2 are their positions).
     """
-    
     edges = []
     for v in ver:
         for n in v.neighbors:
@@ -88,7 +79,6 @@ def change_edges(edges):
             where v_1, v_2 are adjacent vertices and 
             pos is the coordinates of the middle point between v_1 and v_2).
     """
-    
     new_edges = []
     for e in edges:
         if e[0][0] < e[1][0]:
@@ -111,7 +101,6 @@ def set_weights(edges, new_edges, func):
             Keys are tuples (v_1_ind, v_2_ind), where v_1_ind, v_2_ind are
             indices of the adjacent vertices and v_1_ind < v_2_ind.
     """
-    
     weights = {}
     cnt = 0
     for i in range(len(edges)):
@@ -123,12 +112,10 @@ def set_weights(edges, new_edges, func):
     return weights
 
 
-
-
 def plot_graph(ax, edges, pos):
     # plot edges
     color = (0.75, 0.75, 0.75, 0.1)
-    lc = LC(edges, colors=[color] * len(edges), linewidths=1.0)
+    lc = LC(edges, colors=[color]*len(edges), linewidths=1.0)
     ax.add_collection(lc)
 
     # plot vertices
@@ -140,11 +127,10 @@ def plot_graph(ax, edges, pos):
 
 
 
-def rosenbrock(x, a = 1, b = 100):
+def rosenbrock(x, a=1, b=100):
     """
         An example of cost function from the paper.
     """
-    
     return 0.01*((a - x[0])**2 + b*(x[1] - x[0]**2)**2) 
 
 
@@ -162,8 +148,8 @@ class MakeGrid2d:
         weights: A dictionary that contains weights of the edges.
     """
     
-    def __init__(self, num_grid = (20, 20), x_lim = [-2, 2], 
-                 y_lim = [-1, 4], func = rosenbrock):
+    def __init__(self, num_grid=(20, 20), x_lim=[-2, 2], 
+                 y_lim=[-1, 4], func=rosenbrock):
         self.num_grid = num_grid
         self.x_lim = np.array(x_lim)
         self.y_lim = np.array(y_lim)
@@ -208,9 +194,6 @@ class MakeGrid2d:
         plt.show()
     
 
-
-
-
 class GraphProcessing:
     """
     Class for initializing an arbitrary graph.
@@ -224,7 +207,7 @@ class GraphProcessing:
         weights: A dictionary that contains weights of the edges.
     """
     
-    def __init__(self, graph = None, make_grid = None):
+    def __init__(self, graph=None, make_grid=None):
         """
             Args:
                 graph: Either None (if make_grid = True), or one of the 
@@ -233,11 +216,10 @@ class GraphProcessing:
                   and the values should be the neighbors.
                   If list/np.ndarray, the input is an adjacent matrix. 
         """
-        
         self.graph = graph
         self.make_grid = make_grid
      
-    def create_graph(self, params = None):
+    def create_graph(self, params=None):
         """
             Method that initializes a graph. 
             
@@ -246,11 +228,10 @@ class GraphProcessing:
                   self.make_grid = True, it may contain attributes 
                   for an instance of MakeGrid2d class. Else it may 
                   contain the cost function as 'func' keyword (necessary 
-                  if self.graph is a list/np.ndarray object). For adjacent 
+                  if self.graph is a dict object). For adjacent 
                   matrix weights of the edges may be defined in cells of 
                   the matrix. 
         """
-        
         if params is None:
             params = {}
         G = self.graph
@@ -280,10 +261,8 @@ class GraphProcessing:
             self.get_edges = graph.get_edges
             self.weights = graph.weights
         else:
-            try:
-                assert G is not None
-            except:
-                print('Give some graph, please')
+            if G is None:
+                raise ValueError(f'You should give a graph or set make_grid = True')
             graph = nx.Graph()
         if type(G) == dict:
             for key in G.keys():
@@ -317,10 +296,8 @@ class GraphProcessing:
             if params.get('func') is not None:
                 weights = set_weights(edges, new_edges, params['func'])
             else:
-                try:
-                    assert type(G) != dict
-                except:
-                    print('You have to give a function for graph edges')
+                if type(G) == dict:
+                    raise TypeError(f'You have to give a function for graph edges')
                 weights = {}
                 for e in graph.edges:
                     weights[e] = graph.get_edge_data(*e)['weight']
@@ -334,9 +311,7 @@ class GraphProcessing:
         """
             Method for visualizing the graph.
         """
-        
         if self.make_grid:
             self.graph.plot_()
         else:
             nx.draw(self.graph)
-            
