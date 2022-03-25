@@ -2,7 +2,6 @@
 # coding: utf-8
 
 
-
 import numpy as np
 import tensorflow as tf
 import gpflow
@@ -15,18 +14,19 @@ from bax.utils.dijkstra import Dijkstra
 from bax.utils.graph_initialization import rosenbrock
 
 
-
-
 def inv_soft(x):
     return np.log(np.exp(x) - 1)
+
 
 def softplus(x):
     return np.log(np.exp(x) + 1)
 
-def true_func(x, func = lambda x: x):
+
+def true_func(x, func=lambda x: x):
     return inv_soft(func(x))
 
-def entropy(model, X, compute_cov = True, noise = 0):
+
+def entropy(model, X, compute_cov=True, noise=0):
     """
         Computes the entropy of the multivalriate normal.
         
@@ -38,7 +38,6 @@ def entropy(model, X, compute_cov = True, noise = 0):
               else False.
             noise: Noise in observations.
     """
-    
     num_ = X.shape[0]
 
     if compute_cov:
@@ -53,6 +52,7 @@ def entropy(model, X, compute_cov = True, noise = 0):
         
     H = 1/2 + 1/2*np.log(2*np.pi) + [np.log(det[i])/2 for i in range(num_)]
     return H
+  
     
 # For each sample from num_samples contains the shortest path 
 # and values on the edges of this path
@@ -70,8 +70,7 @@ def sample(model, alg, num_samples, edges, start, finish):
             Estimations of the shortest path and the costs of 
             the edges along these paths.
     """
-    
-    paths = model.generate_paths(num_samples = num_samples, num_bases = 1024)
+    paths = model.generate_paths(num_samples=num_samples, num_bases=1024)
     model.set_paths(paths)
     pos_of_edges = [e[1] for e in edges]
     samples = model.predict_f_samples(tf.constant(pos_of_edges))
@@ -86,6 +85,7 @@ def sample(model, alg, num_samples, edges, start, finish):
         values[i] = np.array(val_)
 
     return sub_pathes, values
+
 
 def entropy_of_post_pred_dist(X_new, ker, data, subseq, noise):
     data = (data[0].numpy(), data[1].numpy())
@@ -103,9 +103,7 @@ def entropy_of_post_pred_dist(X_new, ker, data, subseq, noise):
 
     cov = ker(X_new, X_new).numpy() - k_T @ K_inv @ k_ + (noise)**2*np.eye(X_new.shape[0])
 
-    return entropy(cov, X_new, compute_cov = False, noise = noise)
-
-
+    return entropy(cov, X_new, compute_cov=False, noise=noise)
 
 
 class EigBax:
@@ -141,15 +139,15 @@ class EigBax:
         """
             Calculates the result of the aqcuisition function on X.
         """
-        
-        first = entropy(self.model, self.X, noise = self.noise)
+        first = entropy(self.model, self.X, noise=self.noise)
         sub_s, values = sample(self.model, self.alg, self.num_sam, 
                                self.edges, self.start, self.finish)
         diff_entr = [entropy_of_post_pred_dist(self.X, self.model.kernel, 
                                                self.data, sub_s[i], self.noise) for i in range(self.num_sam)]
-        second = np.sum(diff_entr, axis = 0)/self.num_sam
+        second = np.sum(diff_entr, axis=0)/self.num_sam
         return first + second
 
+    
 class RandomBax:
     """
         The aqcuisition function taken as baseline.
@@ -165,11 +163,11 @@ class RandomBax:
         """
             Calculates the result of the aqcuisition function on X.
         """
-        
         ind = np.random.choice(range(len(self.X)), 1)
         result = [0 if i != ind else 1 for i in range(len(self.X))]
         return result
 
+    
 class VarBax:
     """
         The aqcuisition function taken as baseline.
@@ -186,10 +184,10 @@ class VarBax:
         """
             Calculates the result of the aqcuisition function on X.
         """
-        
         var = self.model.predict_f(self.X)[1].numpy()
         return var
 
+    
 # Block of functions for visualizing the result
 # =============================================
 def edges_of_path(path):
@@ -198,10 +196,12 @@ def edges_of_path(path):
         edges.append((path[i], path[i + 1]))
     return np.array(edges)
 
+
 def positions_of_path(path):
     positions = [v[0][1] for v in path]
     positions.append(path[-1][1][1])
     return np.stack(positions)
+
 
 def plot_contourf(fig, ax, x1_lims, x2_lims):
     x, y = np.meshgrid(np.linspace(*x1_lims), np.linspace(*x2_lims))
@@ -210,10 +210,11 @@ def plot_contourf(fig, ax, x1_lims, x2_lims):
                                '#C9A5C8', '#A386A2', '#786277'])
     cbar = fig.colorbar(cs, ax = ax)
 
+    
 def plot_graph(ax, pos, edges, start, goal):
     # plot edges
     color = (0.75, 0.75, 0.75, 0.1)
-    lc = LC(edges, colors=[color] * len(edges), linewidths=1.0)
+    lc = LC(edges, colors=[color]*len(edges), linewidths=1.0)
     ax.add_collection(lc)
 
     # plot vertices
@@ -224,17 +225,18 @@ def plot_graph(ax, pos, edges, start, goal):
     ax.scatter(*start.position, color='#FF530A', 
                marker='s', label="Start", s=150)
     ax.scatter(*goal.position, color='#21FF65', 
-               marker='s', label="Goal", s=150)
+               marker='s', label='Goal', s=150)
 
     ax.grid(False)
     return
+
 
 def plot_path(
     ax,
     path,
     path_color=(0, 0, 0, 1.),
     linewidths=2,
-    linestyle="dotted",
+    linestyle='dotted',
     plot_vertices=False,
     label=None,
 ):
@@ -242,7 +244,7 @@ def plot_path(
     path_lines = edges_of_path(path)
     path_lc = LC(
         path_lines,
-        colors=[path_color] * len(path_lines),
+        colors=[path_color]*len(path_lines),
         linewidths=linewidths,
         linestyle=linestyle,
         label=label,
@@ -256,6 +258,7 @@ def plot_path(
 
 # The end of the block
 # ==============================================
+
 
 class procedure:
     """        
@@ -283,7 +286,7 @@ class procedure:
     """
     
     def __init__(self, budget, num_samples, start, finish, 
-                 graph, gp_params, kernels, init = 1):
+                 graph, gp_params, kernels, init=1):
         self.budget = budget
         self.num_samples = num_samples
         self.start = start
@@ -310,11 +313,11 @@ class procedure:
                      tf.constant([[self.latent_weights[e[0]]] for e in first_edges]))
             
         # Model
-        self.model = PathwiseGPR(data = self.data, kernel = kernels[gp_params["kernel"]], 
-                                 noise_variance=gp_params["noise"])
+        self.model = PathwiseGPR(data = self.data, kernel = kernels[gp_params['kernel']], 
+                                 noise_variance=gp_params['noise'])
         
-    def run(self, method = 'EIG', num = 100, 
-            is_example = None, one_image = None, file_path = f'images/'):
+    def run(self, method='EIG', num=100, 
+            is_example=None, one_image=None, file_path=f'images/'):
         """
             Args:
                 method: The type of acquisition function. Can be
@@ -328,7 +331,6 @@ class procedure:
                 file_path: Path to the folder where the images will be
                   saved.
         """
-        
         if is_example:
             self.true_path = self.alg.run_alg(self.start, self.finish, self.weights)[1]
         for step in range(self.budget):
@@ -342,7 +344,7 @@ class procedure:
             # Choosing acquisition function
             if method == 'EIG':
                 acq_func = EigBax(X, self.data, self.model, self.alg, self.num_samples, 
-                                  self.edges, self.gp_params["noise"], self.start, self.finish)
+                                  self.edges, self.gp_params['noise'], self.start, self.finish)
             if method == 'Random':
                 acq_func = RandomBax(X)
             if method == 'Var':
@@ -353,9 +355,9 @@ class procedure:
             self.already_known.add(sub_ed[ind])
             self.data = (tf.concat((self.data[0], [new_place_for_request[1]]), 0), 
                          tf.concat((self.data[1], [[new_val]]), 0))
-            self.model = PathwiseGPR(data = self.data, 
-                                     kernel = self.kernels[self.gp_params["kernel"]], 
-                                     noise_variance=self.gp_params["noise"])
+            self.model = PathwiseGPR(data=self.data, 
+                                     kernel=self.kernels[self.gp_params['kernel']], 
+                                     noise_variance=self.gp_params['noise'])
             
             # Make and save image/images
             if is_example:
@@ -368,7 +370,6 @@ class procedure:
             Method for visualizing the work of the procedure. It 
             saves images to the folder corresponding to file_path.
         """
-        
         edges_ = [(e[0][1], e[1][1]) for e in self.graph.edges]
         start, finish = self.ver[self.start], self.ver[self.finish]
         sampled_paths, val = sample(self.model, self.alg, 15, 
@@ -424,4 +425,3 @@ class procedure:
         else:
             fig.savefig(file_path + f'image_Bax_{step}.png', bbox_inches='tight')
         plt.close()
-        
