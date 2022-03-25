@@ -177,7 +177,7 @@ class MakeGrid2d:
                 ):
                       is_there_edge[i][j] = True
         is_there_edge = np.array(is_there_edge)
-        self.vertices = make_ver(is_there_edge, positions)
+        self.vertices = make_ver(is_there_edge, self.positions)
         # This attribute is made for plot_ method        
         self.edges = make_edge(self.vertices)
         new_edges = change_edges(self.edges)
