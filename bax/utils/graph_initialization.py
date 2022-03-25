@@ -321,4 +321,5 @@ class GraphProcessing:
         if self.make_grid:
             self.graph.plot_()
         else:
+            plt.figure(figsize = (8.9, 7)) 
             nx.draw_networkx(self.graph, pos = self.layout, node_color = colors)
