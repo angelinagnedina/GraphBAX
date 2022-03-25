@@ -313,7 +313,7 @@ class GraphProcessing:
             self.get_edges = new_edges
             self.weights = weights 
             
-    def draw(self, colors='#1f78b4’):
+    def draw(self, colors='#1f78b4'):
         """
             Method for visualizing the graph.
         """
