@@ -166,7 +166,7 @@ class MakeGrid2d:
         # Connecting vertices in directions N, E, S, W, NW, NE, SW, SE
         for i in range(pos_len):
             for j in range(i + 1, pos_len):
-                if (j - i == 1 and j % num_grid_x != 0) or
+                if (j - i == 1 and j % num_grid_x != 0) or\
                    (j == i + num_grid_x):
                   is_there_edge[i][j] = True
                 elif (j == i + num_grid_x + 1 and 
