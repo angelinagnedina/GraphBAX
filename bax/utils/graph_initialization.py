@@ -313,11 +313,11 @@ class GraphProcessing:
             self.get_edges = new_edges
             self.weights = weights 
             
-    def draw(self):
+    def draw(self, colors='#1f78b4’):
         """
             Method for visualizing the graph.
         """
         if self.make_grid:
             self.graph.plot_()
         else:
-            nx.draw(self.graph, pos = self.layout)
+            nx.draw_networkx(self.graph, pos = self.layout, node_color = colors)
