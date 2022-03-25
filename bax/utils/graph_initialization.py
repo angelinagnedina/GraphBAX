@@ -169,7 +169,7 @@ class MakeGrid2d:
                 if (j - i == 1 and j % num_grid_x != 0) or\
                    (j == i + num_grid_x):
                   is_there_edge[i][j] = True
-                elif (j == i + num_grid_x + 1 and\ 
+                elif (j == i + num_grid_x + 1 and 
                       i % num_grid_x != num_grid_x - 1) or\ 
                      (j == i + num_grid_x - 1 and i % num_grid_x != 0):
                   is_there_edge[i][j] = True
