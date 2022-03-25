@@ -160,7 +160,7 @@ class MakeGrid2d:
         num_grid_x, num_grid_y = self.num_grid
         x, y = np.meshgrid(np.linspace(*self.x_lim, num_grid_x), 
                            np.linspace(*self.y_lim, num_grid_y))
-        positions = np.stack([x.flatten(), y.flatten()], axis = -1) 
+        self.positions = np.stack([x.flatten(), y.flatten()], axis = -1) 
         pos_len = len(positions)
         is_there_edge = [[False for _ in range(pos_len)] for _ in range(pos_len)]
         # Connecting vertices in directions N, E, S, W, NW, NE, SW, SE
@@ -177,13 +177,13 @@ class MakeGrid2d:
                 ):
                       is_there_edge[i][j] = True
         is_there_edge = np.array(is_there_edge)
-        vertices = make_ver(is_there_edge, positions)
+        self.vertices = make_ver(is_there_edge, positions)
         # This attribute is made for plot_ method        
         self.edges = make_edge(vertices)
         new_edges = change_edges(self.edges)
         weights = set_weights(self.edges, new_edges, self.func)
 
-        return positions, vertices, new_edges, weights
+        return self.positions, self.vertices, new_edges, weights
     
     def plot_(self):
         """
