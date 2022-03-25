@@ -331,8 +331,7 @@ class procedure:
                 file_path: Path to the folder where the images will be
                   saved.
         """
-        if is_example:
-            self.true_path = self.alg.run_alg(self.start, self.finish, self.weights)[1]
+        self.true_path = self.alg.run_alg(self.start, self.finish, self.weights)[1]
         for step in range(self.budget):
             # Randomnly choosing edges among which to select the best variant
             sub_ed_first_edition = np.random.choice(range(len(self.edges)), num)
