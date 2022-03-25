@@ -69,7 +69,7 @@ class Dijkstra:
         d = {}
         ver_in_path = end
         while ver_in_path != start:
-            v_1 = self.ver[ver_in_path], 
+            v_1 = self.ver[ver_in_path] 
             v_2 = self.ver[prev[ver_in_path]]
             # Here we restrict situations with diagonally crossing edges 
             # (it will cause problems to computing inverse matrix)
