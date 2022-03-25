@@ -288,10 +288,11 @@ class GraphProcessing:
         if type(G) == nx.classes.graph.Graph:
             graph = nx.Graph(G)
             
-        if not make_grid:  
-            d = nx.circular_layout(graph)
-            pos = [p for p in d.items()]
-            ver = [Vertex(key, p) for key, p in d.items()]
+        if not make_grid:
+            # Layout for visualization            
+            self.layout = nx.spring_layout(graph)
+            pos = [p for p in self.layout.items()]
+            ver = [Vertex(key, p) for key, p in self.layout.items()]
             for v_1 in ver:
                 for v_2 in ver:
                     if graph.has_edge(v_1.ind, v_2.ind):
@@ -319,4 +320,4 @@ class GraphProcessing:
         if self.make_grid:
             self.graph.plot_()
         else:
-            nx.draw(self.graph)
+            nx.draw(self.graph, pos = self.layout)
