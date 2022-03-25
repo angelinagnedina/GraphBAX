@@ -2,11 +2,8 @@
 # coding: utf-8
 
 
-
 from sortedcontainers import SortedList
 import numpy as np
-
-
 
 
 class Dijkstra:
@@ -32,7 +29,6 @@ class Dijkstra:
             Returns:
                 Weight of the edge between v and neigh.
         """
-        
         ind_1, ind_2 = v.ind, neigh.ind
         if ind_1 < ind_2:
             res = self.cost_func[(ind_1, ind_2)]
@@ -47,7 +43,6 @@ class Dijkstra:
                 the shortest path (positions of the edges in the path),
                 values of each edge of the path.
         """
-        
         self.cost_func = cost_func
         self.start = self.ver[start]
         self.end = self.ver[end]
