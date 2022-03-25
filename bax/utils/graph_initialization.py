@@ -143,6 +143,7 @@ class MakeGrid2d:
         x_lim, y_lim: A limited area on the plane 
           where the graph will be located. 
         func: The cost function.
+        edges: Edges of the graph in convenient form for visualization.
         get_pos, get_ver, get_edges: Positions of the vertices, 
           vertices and edges of the graph respectively.
         weights: A dictionary that contains weights of the edges.
@@ -160,8 +161,8 @@ class MakeGrid2d:
         num_grid_x, num_grid_y = self.num_grid
         x, y = np.meshgrid(np.linspace(*self.x_lim, num_grid_x), 
                            np.linspace(*self.y_lim, num_grid_y))
-        self.positions = np.stack([x.flatten(), y.flatten()], axis = -1) 
-        pos_len = len(self.positions)
+        positions = np.stack([x.flatten(), y.flatten()], axis = -1) 
+        pos_len = len(positions)
         is_there_edge = [[False for _ in range(pos_len)] for _ in range(pos_len)]
         # Connecting vertices in directions N, E, S, W, NW, NE, SW, SE
         for i in range(pos_len):
@@ -177,13 +178,13 @@ class MakeGrid2d:
                 ):
                       is_there_edge[i][j] = True
         is_there_edge = np.array(is_there_edge)
-        self.vertices = make_ver(is_there_edge, self.positions)
+        vertices = make_ver(is_there_edge, positions)
         # This attribute is made for plot_ method        
-        self.edges = make_edge(self.vertices)
+        self.edges = make_edge(vertices)
         new_edges = change_edges(self.edges)
         weights = set_weights(self.edges, new_edges, self.func)
 
-        return self.positions, self.vertices, new_edges, weights
+        return positions, vertices, new_edges, weights
     
     def plot_(self):
         """
@@ -191,7 +192,7 @@ class MakeGrid2d:
         """
         edges = [(e[0][1], e[1][1]) for e in self.edges]
         fig, ax = plt.subplots(figsize=(8.9, 7))
-        plot_graph(ax, edges, self.positions)
+        plot_graph(ax, edges, self.get_pos)
         ax.set(ylim=self.y_lim, xlim=self.x_lim) 
         plt.show()
     
@@ -204,6 +205,7 @@ class GraphProcessing:
         make_grid: True for initializing a 2d grid-shaped graph.
         graph: If make_grid = True, then graph is an instance of MakeGrid2d,
           else it is an instance of nx.classes.graph.Graph.
+        edges: Edges of the graph in convenient form for visualization.
         get_pos, get_ver, get_edges: Positions of the vertices, 
           vertices and edges of the graph respectively.
         weights: A dictionary that contains weights of the edges.
@@ -258,6 +260,7 @@ class GraphProcessing:
                 parameters.append(rosenbrock)
             graph = MakeGrid2d(*parameters)
             self.graph = graph
+            self.edges = graph.edges
             self.get_pos = graph.get_pos
             self.get_ver = graph.get_ver
             self.get_edges = graph.get_edges
