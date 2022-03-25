@@ -298,6 +298,7 @@ class GraphProcessing:
                     if graph.has_edge(v_1.ind, v_2.ind):
                         v_1.neighbors.append(v_2)
             edges = make_edge(ver)
+            self.edges = edges
             new_edges = change_edges(edges)
             if params.get('func') is not None:
                 weights = set_weights(edges, new_edges, params['func'])
