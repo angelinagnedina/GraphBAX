@@ -205,7 +205,7 @@ def positions_of_path(path):
 
 def plot_contourf(fig, ax, x1_lims, x2_lims):
     x, y = np.meshgrid(np.linspace(*x1_lims), np.linspace(*x2_lims))
-    cs = ax.contourf(x, y, Rosenbrock((x, y)), 
+    cs = ax.contourf(x, y, rosenbrock((x, y)), 
                      colors = ['#F5F1F8', '#F1E1FC', '#F0C5EE', '#E4BBE2', 
                                '#C9A5C8', '#A386A2', '#786277'])
     cbar = fig.colorbar(cs, ax = ax)
