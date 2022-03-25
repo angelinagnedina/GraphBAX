@@ -158,8 +158,8 @@ class MakeGrid2d:
         
     def __get__(self):
         num_grid_x, num_grid_y = self.num_grid
-        x = np.meshgrid(np.linspace(*self.x_lim, num_grid_x)
-        y = np.linspace(*self.y_lim, num_grid_y))
+        x, y = np.meshgrid(np.linspace(*self.x_lim, num_grid_x), 
+                           np.linspace(*self.y_lim, num_grid_y))
         positions = np.stack([x.flatten(), y.flatten()], axis = -1) 
         pos_len = len(positions)
         is_there_edge = [[False for _ in range(pos_len)] for _ in range(pos_len)]
