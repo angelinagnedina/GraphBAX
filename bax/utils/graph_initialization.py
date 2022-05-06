@@ -286,10 +286,10 @@ class GraphProcessing:
                         else:
                             graph.add_edge(i, j)
         if type(G) == nx.classes.graph.Graph:
-            graph = nx.Graph(G)
+            graph = G
             
         if not make_grid:
-            # Layout for visualization            
+            # Layout for visualization  
             self.layout = nx.spring_layout(graph)
             pos = [p for p in self.layout.items()]
             ver = [Vertex(key, p) for key, p in self.layout.items()]
@@ -323,3 +323,42 @@ class GraphProcessing:
         else:
             plt.figure(figsize = (8.9, 7)) 
             nx.draw_networkx(self.graph, pos = self.layout, node_color = colors)
+
+class process_PEMS:
+    
+    def __init__(self, graph):
+        self.graph = graph
+        
+    def create_graph(self):
+        layout = {}
+        for n in self.graph.nodes:
+            layout[n] = (self.graph.nodes[n]['x'], self.graph.nodes[n]['y'])
+        self.layout = layout
+        pos = [p for p in self.layout.items()]
+        ver = [Vertex(key, p) for key, p in self.layout.items()]
+        for v_1 in ver:
+            for v_2 in ver:
+                if self.graph.has_edge(v_1.ind, v_2.ind):
+                    v_1.neighbors.append(v_2)
+        edges = make_edge(ver)
+        self.edges = edges
+        new_edges = change_edges(edges)
+        weights = {}
+        for e in self.graph.edges:
+            key = list(self.graph.get_edge_data(*e[0:2]).keys())[0]
+            weights[e[0:2]] = self.graph.get_edge_data(*e[0:2])[key]['weight']
+        graph = nx.Graph()
+        graph.add_nodes_from(range(0, 1016))
+        for edge in edges:
+            graph.add_edge(edge[0][0], edge[1][0])
+        self.graph = graph
+        self.get_pos = pos
+        self.get_ver = ver
+        self.get_edges = new_edges
+        self.weights = weights
+    
+    def draw(self, colors, node_size=50, save=False, file_path=None):
+        plt.figure(figsize = (8.9, 7)) 
+        nx.draw_networkx(self.graph, pos=self.layout, with_labels=False, 
+                         node_size=node_size, node_color=colors)
+        
