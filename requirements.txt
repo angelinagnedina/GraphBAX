@@ -1,7 +1,9 @@
 numpy>=1.20.3
 tensorflow>=2.8.0
 gpflow>=2.4.0
+scipy>=1.7.1
 -e git+https://github.com/j-wilson/GPflowSampling.git@bc9c553#egg=gpflow_sampling
+-e git+https://github.com/vabor112/Graph-Gaussian-Processes.git#egg=graph_matern
 tensorflow-probability>=0.16.0
 networkx>=2.6.3
 matplotlib>=3.4.3
