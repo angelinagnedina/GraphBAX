@@ -39,7 +39,7 @@ class Dijkstra:
     def run_alg(self, start, end, cost_func):
         """
             Returns:
-                Distance from the start vertex to the end vertex in the shortest path,
+                Ordered vertices in the shortest path from finish to start,
                 the shortest path (positions of the edges in the path),
                 values of each edge of the path.
         """
@@ -68,18 +68,20 @@ class Dijkstra:
         val = []
         d = {}
         ver_in_path = end
+        ver_path = [ver_in_path]
         while ver_in_path != start:
             v_1 = self.ver[ver_in_path] 
             v_2 = self.ver[prev[ver_in_path]]
+            ver_path.append(prev[ver_in_path])
             # Here we restrict situations with diagonally crossing edges 
             # (it will cause problems to computing inverse matrix)
             if d.get(v_1.ind + v_2.ind) is None:
                 d[v_1.ind + v_2.ind] = 1
                 value = np.sum([v_1.position, v_2.position], axis = 0)/2
                 path.append(value)
-                if v_1.ind < v_2.ind:
-                    val.append(self.cost_func[(v_1.ind, v_2.ind)])
-                else:
-                    val.append(self.cost_func[(v_2.ind, v_1.ind)])
+            if v_1.ind < v_2.ind:
+                val.append(self.cost_func[(v_1.ind, v_2.ind)])
+            else:
+                val.append(self.cost_func[(v_2.ind, v_1.ind)])
             ver_in_path = prev[ver_in_path]
-        return dist[end], path, val
+        return ver_path, path, val
