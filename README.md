@@ -1,4 +1,4 @@
-# [Reproducibility Project] InfoBAX for Shortest Paths on Graphs
+# [Reproducibility Project] InfoBAX for Graph Shortest Paths
 <p float="left">
     <img src="images/image_Bax_120.png" width="35%"/>
     <img src="images/comparison_with_other_strategies_log_scale.jpg" width="30%" />
