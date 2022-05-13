@@ -27,7 +27,29 @@ To install the package along with all of its dependencies
 `pip instal git+https://github.com/angelinagnedina/BAX_realization.git`
 
 ## Usage
-The example of how to use infoBAX procedure can be found in examples folder in **InfoBAX_on_grid-shaped_graph** notebook. There is an example for grid-shaped graph, but the procedure can be implemented on various graphs, for example, on road graph from PEMS dataset. 
+Below is an outline of how to use InfoBAX on your graph:
+
+```
+from bax.utils import graph_initialization
+from bax.infoBax import procedure
+
+gp_params = {
+    'noise': noise, # float
+    'kernel': kernel # gpflow kernel
+}
+# G is a networkx Graph with weighted edges
+graph = graph_initialization.GraphProcessing(G) 
+graph.create_graph()
+
+bax = procedure(budget, num_samples, start, 
+                finish, graph, gp_params, 
+                init=1, is_gp_on_graph=True)
+bax.run(num=number_of_edges_to_check)
+model = bax.model # PathwiseGPR model
+```
+
+## Examples
+The example of how to use infoBAX procedure can be found in examples folder in **InfoBAX_on_grid-shaped_graph** notebook. There is an example for a grid-shaped graph, but the procedure can be implemented on various graphs, for instance, on a road graph from PEMS dataset. 
 
 <img src="images/Estimated_shortest_path.jpg" width ="50%">
 
