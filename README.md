@@ -29,7 +29,6 @@ To install the package along with all of its dependencies
 `pip instal git+https://github.com/angelinagnedina/BAX_realization.git`
 
 ## Usage
-<<<<<<< HEAD
 Below is an outline of how to use InfoBAX on your graph:
 
 ```
@@ -52,10 +51,7 @@ model = bax.model # PathwiseGPR model
 ```
 
 ## Examples
-The example of how to use infoBAX procedure can be found in examples folder in **InfoBAX_on_grid-shaped_graph** notebook. There is an example for a grid-shaped graph, but the procedure can be implemented on various graphs, for instance, on a road graph from PEMS dataset. 
-=======
-The example of how to use infoBAX procedure can be found in [examples](examples) folder in [InfoBAX_on_grid-shaped_graph](examples/InfoBAX_on_grid-shaped_graph.ipynb) notebook. There is an example for grid-shaped graph, but the procedure can be implemented on various graphs, for example, on road graph from PEMS dataset. 
->>>>>>> c2c1e3ad3b306dfa4fe348f59a4f9d0f2589efbb
+The example of how to use infoBAX procedure can be found in [examples](examples) folder in [InfoBAX_on_grid-shaped_graph](examples/InfoBAX_on_grid-shaped_graph.ipynb) notebook. There is an example for a grid-shaped graph, but the procedure can be implemented on various graphs, for instance, on a road graph from PEMS dataset. 
 
 <img src="images/Estimated_shortest_path.jpg" width ="50%">
 
