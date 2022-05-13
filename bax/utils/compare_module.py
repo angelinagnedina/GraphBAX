@@ -117,7 +117,7 @@ def get_plot(path_to_dir, dict_of_func, paint_params, true_val, num_of_iter):
     plt.title(paint_params['title'])
     plt.plot(range(0, num_of_iter), [true_val]*num_of_iter, 
              linewidth=2*paint_params['linewidth'], color='black', 
-             label='True cost')    
+             label='Истинная стоимость')    
 
     for i in range(num_of_funcs):
         key = lines[i*(num_of_iter+1)].strip()

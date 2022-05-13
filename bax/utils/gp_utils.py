@@ -75,8 +75,12 @@ def sample(model, alg, num_samples, elements,
         mean, cov = model.predict_f(elements, full_cov=True)
         mean = mean.numpy().reshape(-1)
         cov = cov.numpy()[0]
-        samples = np.random.multivariate_normal(mean=mean, cov=cov, 
-                                                size=num_samples)
+#         assert np.sum(~np.isfinite(mean)) == 0 or np.sum(~np.isfinite(cov)) == 0
+#         samples = np.random.multivariate_normal(mean=mean, cov=cov, 
+#                                                 size=num_samples)
+        s, v = np.linalg.eigh(cov)
+        samples = np.array([mean + v*np.sqrt(s)@np.random.standard_normal(mean.shape[0]) 
+                            for _ in range(num_samples)])
     ver_pathes = dict([(i, 0) for i in range(num_samples)])
     sub_pathes = dict([(i, 0) for i in range(num_samples)])
     values = dict([(i, 0) for i in range(num_samples)])
