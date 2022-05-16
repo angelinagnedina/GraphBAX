@@ -9,7 +9,7 @@ from scipy import sparse
 import gpflow
 from gpflow_sampling.models import PathwiseGPR
 from graph_matern.kernels.graph_matern_kernel import GraphMaternKernel
-from bax.utils.acquisition_functions import EigBax, RandomBax, VarBax
+from bax.acquisition_functions import EigBax, RandomBax, VarBax
 from bax.utils.gp_utils import true_func, sample
 from bax.utils.dijkstra import Dijkstra
 from bax.utils.visualization_utils import paint
@@ -162,14 +162,14 @@ class procedure:
                 X = np.array([self.elements[i][1] for i in sub_ed])
             # Choosing acquisition function
             if method == 'EIG':
-                acq_func = EigBax(X, self.data, self.model, self.alg, self.num_samples, 
+                res = EigBax(X, self.data, self.model, self.alg, self.num_samples, 
                                   self.elements, self.gp_params['noise'], self.start, 
                                   self.finish, is_gp_on_graph=self.is_gp_on_graph)                
             if method == 'Random':
-                acq_func = RandomBax(X)
+                res = RandomBax(X)
             if method == 'Var':
-                acq_func = VarBax(X, self.model)
-            ind = np.argmax(acq_func.calculate()) 
+                res = VarBax(X, self.model)
+            ind = np.argmax(res) 
             new_place_for_request = self.elements[sub_ed[ind]]
             if self.is_gp_on_graph:
                 new_val = self.latent_weights[tuple(new_place_for_request)]
