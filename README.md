@@ -2,7 +2,7 @@
 <p float="left">
 <!--     <img src="images/image_Bax_120.png" width="35%"/> -->
     <img src="images/visualization_of_infoBAX.gif"/>
-    <img src="images/comparison_log_scale" width="50%" height="355"/>
+    <img src="images/comparison_log_scale" width="55%" height="350"/>
 <!--     <img src="images/comparison_with_other_strategies_log_scale.jpg" /> -->
 <!--     <img src="images/comparison_with_other_strategies.jpg" width="30%" />      -->
 </p>
