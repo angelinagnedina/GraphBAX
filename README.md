@@ -33,7 +33,7 @@ Below is an outline of how to use InfoBAX on your graph:
 
 ```
 from bax.utils import graph_initialization
-from bax.infoBax import procedure
+from bax.infobax import procedure
 
 gp_params = {
     'noise': noise, # float
@@ -51,7 +51,7 @@ model = bax.model # PathwiseGPR model
 ```
 
 ## Examples
-The example of how to use infoBAX procedure can be found in [examples](examples) folder in [InfoBAX_on_grid-shaped_graph](examples/InfoBAX_on_grid-shaped_graph.ipynb) notebook. There is an example for a grid-shaped graph, but the procedure can be implemented on various graphs, for instance, on a road graph from PEMS dataset. 
+The example of how to use the InfoBAX procedure can be found in [examples](examples) folder in [infobax_on_grid-shaped_graph](examples/infobax_on_grid-shaped_graph.ipynb) notebook. There is an example for a grid-shaped graph, but the procedure can be implemented on various graphs, for instance, on a road graph from PEMS dataset. 
 
 <img src="images/Estimated_shortest_path.jpg" width ="50%">
 
