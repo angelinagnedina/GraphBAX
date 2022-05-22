@@ -109,20 +109,20 @@ class procedure:
                                  noise_variance=gp_params['noise'])
             
         
-    def run(self, method='EIG', num=100, is_visualize=None, 
-            is_one_image=None, is_compare=None, file_path=''): 
+    def run(self, method='EIG', num=100, visualize=None, 
+            is_one_image=None, compare_strategies=None, file_path=''): 
         """
             Args:
                 method: The type of acquisition function. Can be
                   'EIG'/'Random'/'Var'.
                 num: Number of randomly chosen edges that will be
                   taken into account at each iteration.
-                is_visualize: True for visualization of grid-shaped graph.
+                visualize: True for visualization of grid-shaped graph.
                 is_one_image: If True, then only the image from the last
                   iteration will be saved. Otherwise, there will be
                   self.budget images.
-                is_compare: If True, then the first, second and third quantiles 
-                  will be saved in a file on each iteration.
+                compare_strategies: If True, then the first, second and third 
+                  quantiles will be saved in a file on each iteration.
                 file_path: Path to the folder where the images/statistics 
                   will be saved.
         """        
@@ -185,13 +185,13 @@ class procedure:
                                      kernel=self.kernel, 
                                      noise_variance=self.gp_params['noise'])
             # Comparison of acquisition functions            
-            if is_compare:
+            if compare_strategies:
 #                 if step % 10 == 0:
 #                     print(f'Finished iter i = {step}')
                 params['model'] = self.model
                 compare(params)
             # Make and save image/images
-            if is_visualize:
+            if visualize:
 #                 if step % 10 == 0:
 #                     print(f'Finished iter i = {step}')
                 params['step'] = step
