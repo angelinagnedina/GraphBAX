@@ -10,8 +10,8 @@ requirements = (
     'matplotlib>=3.4.3',
     'sortedcontainers>=2.4.0',
     'ipywidgets>=7.6.5',
-    'gpflow_sampling @ git+https://github.com/j-wilson/GPflowSampling.git',
-    'graph_matern @ git+https://github.com/vabor112/Graph-Gaussian-Processes.git'
+    'gpflow_sampling @ git+https://github.com/j-wilson/GPflowSampling.git#egg=gpflow_sampling',
+    'graph_matern @ git+https://github.com/vabor112/Graph-Gaussian-Processes.git#egg=graph_matern'
 )
 
 setup(name='bax',
