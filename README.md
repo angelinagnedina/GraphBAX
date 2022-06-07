@@ -26,7 +26,7 @@ The original paper is
 ## Installation
 To install the package along with all of its dependencies
 
-`pip instal git+https://github.com/angelinagnedina/BAX_realization.git`
+`pip install git+https://github.com/angelinagnedina/GraphBAX.git`
 
 ## Usage
 Below is an outline of how to use InfoBAX on your graph:
